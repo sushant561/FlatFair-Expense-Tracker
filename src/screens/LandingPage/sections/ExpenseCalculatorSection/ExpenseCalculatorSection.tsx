@@ -39,23 +39,23 @@ const calculatorCards = [
 
 export const ExpenseCalculatorSection = (): JSX.Element => {
   return (
-    <section className="flex flex-col items-center justify-center gap-6 p-20 bg-white w-full">
+    <section className="flex flex-col items-center justify-center gap-6 p-6 md:p-20 bg-white w-full">
       <header className="flex items-center gap-6 w-full">
         <div className="flex flex-col items-start gap-6 flex-1">
           <div className="flex flex-col items-start gap-2 w-full">
-            <h2 className="w-full font-heading-4 text-blue-gray900 text-[length:var(--heading-4-font-size)] tracking-[var(--heading-4-letter-spacing)] leading-[var(--heading-4-line-height)]">
+            <h2 className="w-full font-heading-4 text-blue-gray900 text-[length:var(--heading-4-font-size)] tracking-[var(--heading-4-letter-spacing)] leading-[var(--heading-4-line-height)] text-2xl md:text-4xl">
               Manage
             </h2>
           </div>
         </div>
       </header>
 
-      <div className="flex items-start gap-6 w-full">
+      <div className="flex flex-col md:flex-row items-start gap-6 w-full">
         {calculatorCards.map((card) => (
-          <Card key={card.id} className="flex-1 border-none">
+          <Card key={card.id} className="flex-1 border-none w-full md:w-auto">
             <div className="relative">
               <div
-                className="w-full h-[220px] rounded-[5px] bg-cover bg-center"
+                className="w-full h-[180px] md:h-[220px] rounded-[5px] bg-cover bg-center"
                 style={{ backgroundImage: `url(${card.image})` }}
               />
               <Badge
@@ -65,10 +65,10 @@ export const ExpenseCalculatorSection = (): JSX.Element => {
               </Badge>
             </div>
             <CardContent className="flex flex-col items-start gap-3 pt-6 pb-4 px-4">
-              <h3 className="w-full font-heading-6 text-blue-gray900 text-[length:var(--heading-6-font-size)] tracking-[var(--heading-6-letter-spacing)] leading-[var(--heading-6-line-height)]">
+              <h3 className="w-full font-heading-6 text-blue-gray900 text-[length:var(--heading-6-font-size)] tracking-[var(--heading-6-letter-spacing)] leading-[var(--heading-6-line-height)] text-xl md:text-2xl">
                 {card.title}
               </h3>
-              <p className="w-full font-body-l text-blue-gray900 text-[length:var(--body-l-font-size)] tracking-[var(--body-l-letter-spacing)] leading-[var(--body-l-line-height)] opacity-80">
+              <p className="w-full font-body-l text-blue-gray900 text-[length:var(--body-l-font-size)] tracking-[var(--body-l-letter-spacing)] leading-[var(--body-l-line-height)] opacity-80 text-sm md:text-base">
                 {card.description}
               </p>
             </CardContent>

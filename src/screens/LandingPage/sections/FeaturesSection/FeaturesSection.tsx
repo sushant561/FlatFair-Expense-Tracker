@@ -1,4 +1,4 @@
-
+import "./FeaturesSection.css";
 
 export const FeaturesSection = (): JSX.Element => {
   // Feature data for mapping
@@ -40,24 +40,42 @@ export const FeaturesSection = (): JSX.Element => {
     },
   ];
 
+  const FeatureItem = ({ feature }: { feature: typeof features[0] }) => (
+    <div className="feature-item">
+      <img
+        className="relative h-8"
+        style={{ width: feature.iconWidth }}
+        alt={feature.alt}
+        src={feature.icon}
+      />
+      <span className="font-heading-6 font-[number:var(--heading-6-font-weight)] text-blue-gray400 text-[length:var(--heading-6-font-size)] tracking-[var(--heading-6-letter-spacing)] leading-[var(--heading-6-line-height)] whitespace-nowrap [font-style:var(--heading-6-font-style)]">
+        {feature.label}
+      </span>
+    </div>
+  );
+
   return (
-    <section className="flex items-center justify-center gap-20 px-20 py-3 bg-blue-gray100 w-full">
-      {features.map((feature, index) => (
-        <div
-          key={index}
-          className="inline-flex items-center justify-center gap-2"
-        >
-          <img
-            className="relative h-8"
-            style={{ width: feature.iconWidth }}
-            alt={feature.alt}
-            src={feature.icon}
-          />
-          <span className="font-heading-6 font-[number:var(--heading-6-font-weight)] text-blue-gray400 text-[length:var(--heading-6-font-size)] tracking-[var(--heading-6-letter-spacing)] leading-[var(--heading-6-line-height)] whitespace-nowrap [font-style:var(--heading-6-font-style)]">
-            {feature.label}
-          </span>
+    <section className="bg-blue-gray100 w-full py-3">
+      {/* Desktop View */}
+      <div className="hidden md:flex items-center justify-center gap-20 px-20">
+        {features.map((feature, index) => (
+          <FeatureItem key={index} feature={feature} />
+        ))}
+      </div>
+
+      {/* Mobile View with Scrolling */}
+      <div className="md:hidden scroll-container">
+        <div className="scroll-content">
+          {/* First set of features */}
+          {features.map((feature, index) => (
+            <FeatureItem key={index} feature={feature} />
+          ))}
+          {/* Duplicate set for seamless scrolling */}
+          {features.map((feature, index) => (
+            <FeatureItem key={`duplicate-${index}`} feature={feature} />
+          ))}
         </div>
-      ))}
+      </div>
     </section>
   );
 };
