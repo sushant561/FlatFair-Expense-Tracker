@@ -1,4 +1,4 @@
-import React from "react";
+
 
 export const FeaturesSection = (): JSX.Element => {
   // Feature data for mapping
@@ -41,7 +41,7 @@ export const FeaturesSection = (): JSX.Element => {
   ];
 
   return (
-    <section className="flex items-center justify-center gap-20 px-20 py-12 bg-blue-gray100 w-full">
+    <section className="flex items-center justify-center gap-20 px-20 py-3 bg-blue-gray100 w-full">
       {features.map((feature, index) => (
         <div
           key={index}

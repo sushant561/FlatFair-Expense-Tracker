@@ -1,10 +1,11 @@
 import { ArrowRightIcon } from "lucide-react";
 import { Button } from "../../../../components/ui/button";
+import "./MainContentSection.css";
 
 export const MainContentSection = (): JSX.Element => {
   return (
-    <section className="flex items-center gap-20 pl-20 pr-0 pt-40 pb-0 relative w-full bg-rose-900 min-h-screen">
-      <div className="flex flex-col items-start justify-center gap-6 relative flex-1 self-stretch">
+    <section className="flex items-center gap-12 pl-20 pr-12 pt-20 pb-12 relative w-full bg-rose-900 min-h-screen overflow-hidden">
+      <div className="flex flex-col items-start justify-center gap-6 relative flex-1 self-stretch max-w-[50%]">
         <div className="flex flex-col items-start gap-6 relative self-stretch w-full">
           <div className="flex flex-col items-start gap-2 relative self-stretch w-full">
             <h1 className="relative self-stretch mt-[-1.00px] font-heading-1-m font-[number:var(--heading-1-m-font-weight)] text-white text-[length:var(--heading-1-m-font-size)] tracking-[var(--heading-1-m-letter-spacing)] leading-[var(--heading-1-m-line-height)] [font-style:var(--heading-1-m-font-style)]">
@@ -33,11 +34,13 @@ export const MainContentSection = (): JSX.Element => {
         </div>
       </div>
 
-      <img
-        className="relative w-[675px] h-[675px] object-cover"
-        alt="Flatmates managing expenses together"
-        src="/images/file-0000000098ac61f9a837ee49e8fba932-1.png"
-      />
+      <div className="relative w-[45%] flex items-center justify-center">
+        <img
+          className="relative w-full h-auto max-h-[80vh] object-contain rounded-lg transform scale-110 translate-x-8 floating-animation"
+          alt="Flatmates managing expenses together"
+          src="/images/file-0000000098ac61f9a837ee49e8fba932-1.png"
+        />
+      </div>
     </section>
   );
 };
