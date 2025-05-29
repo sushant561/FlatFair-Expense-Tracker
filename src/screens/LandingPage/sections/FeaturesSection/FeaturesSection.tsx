@@ -4,35 +4,35 @@ export const FeaturesSection = (): JSX.Element => {
   // Feature data for mapping
   const features = [
     {
-      icon: "/group-45.png",
+      icon: "/images/group-45.png",
       iconWidth: "33.16px",
       iconHeight: "32px",
       label: "Track",
       alt: "Track icon",
     },
     {
-      icon: "/vector.svg",
+      icon: "/images/vector.svg",
       iconWidth: "32px",
       iconHeight: "32px",
       label: "Share",
       alt: "Share icon",
     },
     {
-      icon: "/vector-2.svg",
+      icon: "/images/vector-2.svg",
       iconWidth: "30.4px",
       iconHeight: "32px",
       label: "Settle",
       alt: "Settle icon",
     },
     {
-      icon: "/vector-1.svg",
+      icon: "/images/vector-1.svg",
       iconWidth: "21.03px",
       iconHeight: "32px",
       label: "Split",
       alt: "Split icon",
     },
     {
-      icon: "/group-46.png",
+      icon: "/images/group-46.png",
       iconWidth: "55.81px",
       iconHeight: "32px",
       label: "Balance",

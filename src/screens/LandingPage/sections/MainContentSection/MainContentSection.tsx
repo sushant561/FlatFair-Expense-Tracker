@@ -1,10 +1,9 @@
 import { ArrowRightIcon } from "lucide-react";
-import React from "react";
 import { Button } from "../../../../components/ui/button";
 
 export const MainContentSection = (): JSX.Element => {
   return (
-    <section className="flex items-center gap-20 pl-20 pr-0 pt-32 pb-0 relative w-full bg-rose-900">
+    <section className="flex items-center gap-20 pl-20 pr-0 pt-40 pb-0 relative w-full bg-rose-900 min-h-screen">
       <div className="flex flex-col items-start justify-center gap-6 relative flex-1 self-stretch">
         <div className="flex flex-col items-start gap-6 relative self-stretch w-full">
           <div className="flex flex-col items-start gap-2 relative self-stretch w-full">
@@ -37,7 +36,7 @@ export const MainContentSection = (): JSX.Element => {
       <img
         className="relative w-[675px] h-[675px] object-cover"
         alt="Flatmates managing expenses together"
-        src="/file-0000000098ac61f9a837ee49e8fba932-1.png"
+        src="/images/file-0000000098ac61f9a837ee49e8fba932-1.png"
       />
     </section>
   );

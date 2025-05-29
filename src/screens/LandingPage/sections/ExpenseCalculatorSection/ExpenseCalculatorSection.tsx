@@ -9,7 +9,7 @@ const calculatorCards = [
     title: "Calculate for 4 people",
     description:
       "Easily split expenses among four roommates and get instant analysis.",
-    image: "..//picture.png",
+    image: "/images/picture.png",
     badge: {
       text: "Featured",
       className: "bg-purple-100 text-purple-800",
@@ -19,7 +19,7 @@ const calculatorCards = [
     id: 2,
     title: "Calculate for 3 people",
     description: "Manage shared costs for three and see who owes whom.",
-    image: "..//picture-1.png",
+    image: "/images/picture-1.png",
     badge: {
       text: "New",
       className: "bg-green-100 text-green-800",
@@ -30,7 +30,7 @@ const calculatorCards = [
     title: "Calculate for 2 people",
     description:
       "Quickly balance spending between two and settle amounts fairly.",
-    image: "..//picture-2.png",
+    image: "/images/picture-2.png",
     badge: {
       text: "Coming Soon",
       className: "bg-yellow-100 text-yellow-800",

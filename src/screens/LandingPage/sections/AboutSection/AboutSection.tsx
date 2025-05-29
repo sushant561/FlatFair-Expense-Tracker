@@ -29,7 +29,7 @@ export const AboutSection = (): JSX.Element => {
       <img
         className="w-[363px] h-[544px] object-cover"
         alt="Sushant Bhagat portrait"
-        src="/1000008807-removebg-1.png"
+        src="/images/1000008807-removebg-1.png"
       />
     </section>
   );

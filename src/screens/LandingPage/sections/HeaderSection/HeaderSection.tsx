@@ -1,4 +1,3 @@
-import React from "react";
 import { Button } from "../../../../components/ui/button";
 import {
   NavigationMenu,
@@ -16,7 +15,7 @@ export const HeaderSection = (): JSX.Element => {
   ];
 
   return (
-    <header className="flex w-full items-center justify-between px-20 py-6 bg-transparent">
+    <header className="flex w-full items-center justify-between px-20 py-6 absolute top-0 left-0 z-10">
       {/* Brand logo/text */}
       <div className="font-heading-5 font-[number:var(--heading-5-font-weight)] text-neutral-100 text-[length:var(--heading-5-font-size)] tracking-[var(--heading-5-letter-spacing)] leading-[var(--heading-5-line-height)] whitespace-nowrap [font-style:var(--heading-5-font-style)]">
         chhichhore
