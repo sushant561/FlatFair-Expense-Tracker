@@ -51,27 +51,55 @@ export const EndCalculate = (): JSX.Element => {
     if (!contentRef.current) return;
 
     try {
-      // Create canvas from the main content
+      // Configure html2canvas options for better quality and full capture
       const canvas = await html2canvas(contentRef.current, {
-        scale: 2,
+        scale: 2, // Higher scale for better quality
+        useCORS: true,
+        scrollY: -window.scrollY, // Handle scrolled content
+        windowHeight: contentRef.current.scrollHeight,
+        height: contentRef.current.scrollHeight,
         backgroundColor: '#ffffff',
+        onclone: (document) => {
+          // Ensure the cloned element has full height for capture
+          const el = document.querySelector('[data-pdf-content]') as HTMLElement;
+          if (el) {
+            el.style.height = 'auto';
+            el.style.overflow = 'visible';
+          }
+        }
       });
 
-      // Calculate dimensions
+      // Calculate dimensions to fit content properly
       const imgWidth = 210; // A4 width in mm
+      const pageHeight = 297; // A4 height in mm
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       
-      // Create PDF
+      // Create PDF with proper dimensions
       const pdf = new jsPDF({
-        orientation: imgHeight > imgWidth ? 'portrait' : 'landscape',
+        orientation: 'portrait',
         unit: 'mm',
+        format: 'a4'
       });
 
-      // Add image to PDF
-      const imgData = canvas.toDataURL('image/png');
-      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+      // Handle multi-page content if needed
+      let heightLeft = imgHeight;
+      let position = 0;
+      let pageNumber = 1;
 
-      // Download PDF
+      // Add first page
+      pdf.addImage(canvas.toDataURL('image/jpeg', 1.0), 'JPEG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      // Add subsequent pages if content overflows
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(canvas.toDataURL('image/jpeg', 1.0), 'JPEG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+        pageNumber++;
+      }
+
+      // Download the PDF
       pdf.save('expense-summary.pdf');
     } catch (error) {
       console.error('Error generating PDF:', error);
@@ -116,7 +144,7 @@ export const EndCalculate = (): JSX.Element => {
         <Card className="w-full max-w-3xl bg-white shadow-lg">
           <CardContent className="flex flex-col gap-6 p-8">
             {/* Content to be included in PDF */}
-            <div ref={contentRef}>
+            <div ref={contentRef} data-pdf-content className="pdf-content">
               <h1 className="text-2xl md:text-4xl font-bold text-center text-blue-gray900 mb-6">
                 Expense Summary ({numberOfPeople} People)
               </h1>
