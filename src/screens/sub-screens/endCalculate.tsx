@@ -3,7 +3,7 @@ import { FooterSection } from "../LandingPage/sections/FooterSection/FooterSecti
 import { Card, CardContent } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
 import { useLocation } from "react-router-dom";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
@@ -102,6 +102,11 @@ export const EndCalculate = (): JSX.Element => {
   const handleDeleteExpense = (id: number) => {
     setExpenses(expenses.filter(expense => expense.id !== id));
   };
+
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="flex flex-col items-center w-full bg-white min-h-screen">
