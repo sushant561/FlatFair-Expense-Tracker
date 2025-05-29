@@ -1,4 +1,3 @@
-
 import { Button } from "../../../../components/ui/button";
 
 export const AboutSection = (): JSX.Element => {
@@ -16,10 +15,11 @@ export const AboutSection = (): JSX.Element => {
           <div className="flex items-center gap-4">
             <Button
               variant="outline"
-              className="p-4 rounded-lg border-2 border-solid border-white bg-transparent hover:bg-white hover:text-blue-gray900 transition-colors"
+              className="group p-4 rounded-lg border-2 border-solid border-white bg-transparent hover:bg-white transition-colors"
+              onClick={() => window.open('https://sushantbhagat.vercel.app/', '_blank')}
             >
-              <span className="font-button-l text-white text-[length:var(--button-l-font-size)] tracking-[var(--button-l-letter-spacing)] leading-[var(--button-l-line-height)] [font-style:var(--button-l-font-style)] font-[number:var(--button-l-font-weight)] whitespace-nowrap group-hover:text-blue-gray900">
-                Contact me →
+              <span className="font-button-l text-white text-[length:var(--button-l-font-size)] tracking-[var(--button-l-letter-spacing)] leading-[var(--button-l-line-height)] [font-style:var(--button-l-font-style)] font-[number:var(--button-l-font-weight)] whitespace-nowrap group-hover:text-blue-gray900 transition-colors">
+                View Portfolio →
               </span>
             </Button>
           </div>

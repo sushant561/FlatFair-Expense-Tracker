@@ -1,4 +1,3 @@
-
 import { Badge } from "../../../../components/ui/badge";
 import { Card, CardContent } from "../../../../components/ui/card";
 
@@ -9,9 +8,9 @@ const calculatorCards = [
     title: "Calculate for 4 people",
     description:
       "Easily split expenses among four roommates and get instant analysis.",
-    image: "/images/picture.png",
+    image: "/images/card1.jpg",
     badge: {
-      text: "Featured",
+      text: "4 people",
       className: "bg-purple-100 text-purple-800",
     },
   },
@@ -19,9 +18,9 @@ const calculatorCards = [
     id: 2,
     title: "Calculate for 3 people",
     description: "Manage shared costs for three and see who owes whom.",
-    image: "/images/picture-1.png",
+    image: "/images/card2.jpg",
     badge: {
-      text: "New",
+      text: "3 people",
       className: "bg-green-100 text-green-800",
     },
   },
@@ -30,9 +29,9 @@ const calculatorCards = [
     title: "Calculate for 2 people",
     description:
       "Quickly balance spending between two and settle amounts fairly.",
-    image: "/images/picture-2.png",
+    image: "/images/card3.jpg",
     badge: {
-      text: "Coming Soon",
+      text: "2 people",
       className: "bg-yellow-100 text-yellow-800",
     },
   },
@@ -65,11 +64,11 @@ export const ExpenseCalculatorSection = (): JSX.Element => {
                 {card.badge.text}
               </Badge>
             </div>
-            <CardContent className="flex flex-col items-start gap-2 pt-6 pb-4 px-0">
+            <CardContent className="flex flex-col items-start gap-3 pt-6 pb-4 px-4">
               <h3 className="w-full font-heading-6 text-blue-gray900 text-[length:var(--heading-6-font-size)] tracking-[var(--heading-6-letter-spacing)] leading-[var(--heading-6-line-height)]">
                 {card.title}
               </h3>
-              <p className="w-full font-body-l text-blue-gray900 text-[length:var(--body-l-font-size)] tracking-[var(--body-l-letter-spacing)] leading-[var(--body-l-line-height)]">
+              <p className="w-full font-body-l text-blue-gray900 text-[length:var(--body-l-font-size)] tracking-[var(--body-l-letter-spacing)] leading-[var(--body-l-line-height)] opacity-80">
                 {card.description}
               </p>
             </CardContent>

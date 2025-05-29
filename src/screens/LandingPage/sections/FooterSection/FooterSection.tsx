@@ -1,5 +1,4 @@
-import { LinkedinIcon, TwitterIcon } from "lucide-react";
-import React from "react";
+import { LinkedinIcon, TwitterIcon, GithubIcon } from "lucide-react";
 import { Separator } from "../../../../components/ui/separator";
 
 export const FooterSection = (): JSX.Element => {
@@ -11,12 +10,16 @@ export const FooterSection = (): JSX.Element => {
         </div>
 
         <div className="inline-flex items-center gap-4 relative">
-          <a href="#" aria-label="Twitter">
+          <a href="https://x.com/Sushant1864?t=fpTMozzWfvjxSepq9Yz10w&s=08" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
             <TwitterIcon className="w-6 h-6 text-blue-gray600 hover:text-blue-600 transition-colors" />
           </a>
 
-          <a href="#" aria-label="LinkedIn">
+          <a href="https://www.linkedin.com/in/sushant-bhagat-9a3587329" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
             <LinkedinIcon className="w-6 h-6 text-blue-gray600 hover:text-blue-600 transition-colors" />
+          </a>
+
+          <a href="https://github.com/sushant561" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <GithubIcon className="w-6 h-6 text-blue-gray600 hover:text-blue-600 transition-colors" />
           </a>
         </div>
       </div>

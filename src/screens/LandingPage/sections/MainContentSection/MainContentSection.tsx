@@ -4,7 +4,7 @@ import "./MainContentSection.css";
 
 export const MainContentSection = (): JSX.Element => {
   return (
-    <section className="flex items-center gap-12 pl-20 pr-12 pt-20 pb-12 relative w-full bg-rose-900 min-h-screen overflow-hidden">
+    <section className="flex items-center gap-12 pl-20 pr-12 pt-20 pb-12 relative w-full bg-[#8B1D2C] min-h-screen overflow-hidden">
       <div className="flex flex-col items-start justify-center gap-6 relative flex-1 self-stretch max-w-[50%]">
         <div className="flex flex-col items-start gap-6 relative self-stretch w-full">
           <div className="flex flex-col items-start gap-2 relative self-stretch w-full">

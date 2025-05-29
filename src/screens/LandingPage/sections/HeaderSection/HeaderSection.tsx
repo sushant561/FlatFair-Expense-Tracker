@@ -15,7 +15,7 @@ export const HeaderSection = (): JSX.Element => {
   ];
 
   return (
-    <header className="flex w-full items-center justify-between px-20 py-2 fixed top-0 left-0 z-10 backdrop-blur-md bg-rose-900/30">
+    <header className="flex w-full items-center justify-between px-20 py-2 fixed top-0 left-0 z-10 backdrop-blur-md bg-[#8B1D2C]/30">
       {/* Brand logo/text */}
       <div className="font-heading-5 font-[number:var(--heading-5-font-weight)] text-neutral-100 text-[length:var(--heading-5-font-size)] tracking-[var(--heading-5-letter-spacing)] leading-[var(--heading-5-line-height)] whitespace-nowrap [font-style:var(--heading-5-font-style)]">
         chhichhore
