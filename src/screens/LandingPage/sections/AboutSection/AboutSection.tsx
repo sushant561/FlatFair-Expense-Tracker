@@ -6,10 +6,10 @@ export const AboutSection = (): JSX.Element => {
       <div className="flex flex-col items-start justify-center gap-6 flex-1 text-center md:text-left order-2 md:order-1">
         <div className="flex-col items-start gap-6 flex w-full">
           <div className="flex flex-col items-start gap-2 w-full">
-            <h4 className="font-heading-2 text-white text-[length:var(--heading-2-font-size)] tracking-[var(--heading-2-letter-spacing)] leading-[1.6] md:leading-[var(--heading-2-line-height)] [font-style:var(--heading-2-font-style)] font-[number:var(--heading-2-font-weight)] text-sm md:text-4xl">
+            <h2 className="font-heading-2 text-white text-[length:var(--heading-2-font-size)] tracking-[var(--heading-2-letter-spacing)] leading-[1.6] md:leading-[var(--heading-2-line-height)] [font-style:var(--heading-2-font-style)] font-[number:var(--heading-2-font-weight)] text-sm md:text-4xl">
               Sushant Bhagat, passionate about building smart, helpful web
               tools.
-            </h4>
+            </h2>
           </div>
 
           <div className="flex items-center gap-4 w-full md:w-auto justify-center md:justify-start">
