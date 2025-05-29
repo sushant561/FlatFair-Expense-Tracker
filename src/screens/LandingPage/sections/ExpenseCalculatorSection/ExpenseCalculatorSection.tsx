@@ -1,5 +1,6 @@
 import { Badge } from "../../../../components/ui/badge";
 import { Card, CardContent } from "../../../../components/ui/card";
+import { useNavigate } from "react-router-dom";
 
 // Define the calculator card data for mapping
 const calculatorCards = [
@@ -38,6 +39,12 @@ const calculatorCards = [
 ];
 
 export const ExpenseCalculatorSection = (): JSX.Element => {
+  const navigate = useNavigate();
+
+  const handleCardClick = (numberOfPeople: number) => {
+    navigate('/calculate', { state: { numberOfPeople } });
+  };
+
   return (
     <section className="flex flex-col items-center justify-center gap-6 p-6 md:p-20 bg-white w-full">
       <header className="flex items-center gap-6 w-full">
@@ -52,7 +59,11 @@ export const ExpenseCalculatorSection = (): JSX.Element => {
 
       <div className="flex flex-col md:flex-row items-start gap-6 w-full">
         {calculatorCards.map((card) => (
-          <Card key={card.id} className="flex-1 border-none w-full md:w-auto">
+          <Card 
+            key={card.id} 
+            className="flex-1 border-none w-full md:w-auto cursor-pointer transition-transform hover:scale-105"
+            onClick={() => handleCardClick(5 - card.id)} // 4,3,2 people based on card.id
+          >
             <div className="relative">
               <div
                 className="w-full h-[180px] md:h-[220px] rounded-[5px] bg-cover bg-center"
