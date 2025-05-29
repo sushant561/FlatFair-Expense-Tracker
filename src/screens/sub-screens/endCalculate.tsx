@@ -51,56 +51,88 @@ export const EndCalculate = (): JSX.Element => {
     if (!contentRef.current) return;
 
     try {
-      // Configure html2canvas options for better quality and full capture
-      const canvas = await html2canvas(contentRef.current, {
-        scale: 2, // Higher scale for better quality
+      // Get the content element
+      const content = contentRef.current;
+      
+      // Store original styles
+      const originalStyle = {
+        position: content.style.position,
+        left: content.style.left,
+        top: content.style.top,
+        width: content.style.width,
+        height: content.style.height,
+      };
+
+      // Temporarily modify the element for capture
+      content.style.position = 'absolute';
+      content.style.left = '0';
+      content.style.top = '0';
+      content.style.width = `${content.scrollWidth}px`;
+      content.style.height = `${content.scrollHeight}px`;
+
+      // Configure html2canvas
+      const canvas = await html2canvas(content, {
+        scale: 2,
         useCORS: true,
-        scrollY: -window.scrollY, // Handle scrolled content
-        windowHeight: contentRef.current.scrollHeight,
-        height: contentRef.current.scrollHeight,
+        logging: true,
+        width: content.scrollWidth,
+        height: content.scrollHeight,
+        windowWidth: content.scrollWidth,
+        windowHeight: content.scrollHeight,
         backgroundColor: '#ffffff',
-        onclone: (document) => {
-          // Ensure the cloned element has full height for capture
-          const el = document.querySelector('[data-pdf-content]') as HTMLElement;
-          if (el) {
-            el.style.height = 'auto';
-            el.style.overflow = 'visible';
+        onclone: (clonedDoc) => {
+          const clonedElement = clonedDoc.querySelector('[data-pdf-content]') as HTMLElement;
+          if (clonedElement) {
+            clonedElement.style.position = 'absolute';
+            clonedElement.style.left = '0';
+            clonedElement.style.top = '0';
+            clonedElement.style.width = `${content.scrollWidth}px`;
+            clonedElement.style.height = `${content.scrollHeight}px`;
           }
         }
       });
 
-      // Calculate dimensions to fit content properly
+      // Restore original styles
+      Object.assign(content.style, originalStyle);
+
+      // Calculate dimensions
       const imgWidth = 210; // A4 width in mm
       const pageHeight = 297; // A4 height in mm
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      
-      // Create PDF with proper dimensions
+
+      // Create PDF
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
         format: 'a4'
       });
 
-      // Handle multi-page content if needed
       let heightLeft = imgHeight;
       let position = 0;
       let pageNumber = 1;
 
       // Add first page
-      pdf.addImage(canvas.toDataURL('image/jpeg', 1.0), 'JPEG', 0, position, imgWidth, imgHeight);
+      pdf.addImage(canvas.toDataURL('image/jpeg', 1.0), 'JPEG', 0, position, imgWidth, Math.min(imgHeight, pageHeight));
       heightLeft -= pageHeight;
 
       // Add subsequent pages if content overflows
-      while (heightLeft >= 0) {
-        position = heightLeft - imgHeight;
+      while (heightLeft > 0) {
+        position = -pageHeight * pageNumber;
         pdf.addPage();
-        pdf.addImage(canvas.toDataURL('image/jpeg', 1.0), 'JPEG', 0, position, imgWidth, imgHeight);
+        pdf.addImage(
+          canvas.toDataURL('image/jpeg', 1.0),
+          'JPEG',
+          0,
+          position,
+          imgWidth,
+          imgHeight
+        );
         heightLeft -= pageHeight;
         pageNumber++;
       }
 
-      // Download the PDF
       pdf.save('expense-summary.pdf');
+
     } catch (error) {
       console.error('Error generating PDF:', error);
     }
@@ -144,41 +176,46 @@ export const EndCalculate = (): JSX.Element => {
         <Card className="w-full max-w-3xl bg-white shadow-lg">
           <CardContent className="flex flex-col gap-6 p-8">
             {/* Content to be included in PDF */}
-            <div ref={contentRef} data-pdf-content className="pdf-content">
+            <div 
+              ref={contentRef} 
+              data-pdf-content 
+              className="pdf-content relative"
+              style={{ minHeight: 'fit-content' }}
+            >
               <h1 className="text-2xl md:text-4xl font-bold text-center text-blue-gray900 mb-6">
                 Expense Summary ({numberOfPeople} People)
               </h1>
 
               {/* Add Expense Form - Not included in PDF */}
-            <div className="flex flex-col gap-4 p-4 bg-gray-50 rounded-lg mt-6">
-              <input
-                type="number"
-                placeholder="Amount"
-                className="p-2 border rounded w-full"
-                value={newExpense.amount}
-                onChange={(e) => setNewExpense({ ...newExpense, amount: e.target.value })}
-              />
-              <input
-                type="text"
-                placeholder="Description"
-                className="p-2 border rounded w-full"
-                value={newExpense.description}
-                onChange={(e) => setNewExpense({ ...newExpense, description: e.target.value })}
-              />
-              <input
-                type="text"
-                placeholder="Paid by"
-                className="p-2 border rounded w-full"
-                value={newExpense.paidBy}
-                onChange={(e) => setNewExpense({ ...newExpense, paidBy: e.target.value })}
-              />
-              <Button 
-                onClick={handleAddExpense}
-                className="bg-[#8B1D2C] text-white hover:bg-[#8B1D2C]/90 w-full"
-              >
-                Add Expense
-              </Button>
-            </div>
+              <div className="flex flex-col gap-4 p-4 bg-gray-50 rounded-lg mt-6">
+                <input
+                  type="number"
+                  placeholder="Amount"
+                  className="p-2 border rounded w-full"
+                  value={newExpense.amount}
+                  onChange={(e) => setNewExpense({ ...newExpense, amount: e.target.value })}
+                />
+                <input
+                  type="text"
+                  placeholder="Description"
+                  className="p-2 border rounded w-full"
+                  value={newExpense.description}
+                  onChange={(e) => setNewExpense({ ...newExpense, description: e.target.value })}
+                />
+                <input
+                  type="text"
+                  placeholder="Paid by"
+                  className="p-2 border rounded w-full"
+                  value={newExpense.paidBy}
+                  onChange={(e) => setNewExpense({ ...newExpense, paidBy: e.target.value })}
+                />
+                <Button 
+                  onClick={handleAddExpense}
+                  className="bg-[#8B1D2C] text-white hover:bg-[#8B1D2C]/90 w-full"
+                >
+                  Add Expense
+                </Button>
+              </div>
 
               {/* Expenses List */}
               <div className="space-y-3 mb-6">
@@ -223,7 +260,6 @@ export const EndCalculate = (): JSX.Element => {
                 </div>
               </div>
             </div>
-
 
             <div className="flex flex-col md:flex-row gap-4 pt-6">
               <Button 
