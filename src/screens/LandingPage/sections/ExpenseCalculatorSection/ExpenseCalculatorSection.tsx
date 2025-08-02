@@ -6,31 +6,53 @@ import { useNavigate } from "react-router-dom";
 const calculatorCards = [
   {
     id: 1,
+    title: "Calculate for 6 people",
+    description:
+      "Perfect for larger groups - split expenses among six people with ease.",
+    image: "/images/card1.jpg",
+    badge: {
+      text: "6 people",
+      className: "bg-blue-100 text-blue-800",
+    },
+  },
+  {
+    id: 2,
+    title: "Calculate for 5 people",
+    description:
+      "Ideal for roommates or trips - manage expenses for five people efficiently.",
+    image: "/images/card2.jpg",
+    badge: {
+      text: "5 people",
+      className: "bg-red-100 text-red-800",
+    },
+  },
+  {
+    id: 3,
     title: "Calculate for 4 people",
     description:
       "Easily split expenses among four roommates and get instant analysis.",
-    image: "/images/card1.jpg",
+    image: "/images/card3.jpg",
     badge: {
       text: "4 people",
       className: "bg-purple-100 text-purple-800",
     },
   },
   {
-    id: 2,
+    id: 4,
     title: "Calculate for 3 people",
     description: "Manage shared costs for three and see who owes whom.",
-    image: "/images/card2.jpg",
+    image: "/images/card1.jpg",
     badge: {
       text: "3 people",
       className: "bg-green-100 text-green-800",
     },
   },
   {
-    id: 3,
+    id: 5,
     title: "Calculate for 2 people",
     description:
       "Quickly balance spending between two and settle amounts fairly.",
-    image: "/images/card3.jpg",
+    image: "/images/card2.jpg",
     badge: {
       text: "2 people",
       className: "bg-yellow-100 text-yellow-800",
@@ -62,7 +84,7 @@ export const ExpenseCalculatorSection = (): JSX.Element => {
           <Card 
             key={card.id} 
             className="flex-1 border-none w-full md:w-auto cursor-pointer transition-transform hover:scale-105"
-            onClick={() => handleCardClick(5 - card.id)} // 4,3,2 people based on card.id
+            onClick={() => handleCardClick(7 - card.id)} // 6,5,4,3,2 people based on card.id
           >
             <div className="relative">
               <div

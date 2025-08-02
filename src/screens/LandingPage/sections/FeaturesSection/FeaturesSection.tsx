@@ -38,6 +38,20 @@ export const FeaturesSection = (): JSX.Element => {
       label: "Balance",
       alt: "Balance icon",
     },
+    {
+      icon: "/images/group-45.png",
+      iconWidth: "33.16px",
+      iconHeight: "32px",
+      label: "Analyze",
+      alt: "Analyze icon",
+    },
+    {
+      icon: "/images/vector.svg",
+      iconWidth: "32px",
+      iconHeight: "32px",
+      label: "Report",
+      alt: "Report icon",
+    },
   ];
 
   const FeatureItem = ({ feature }: { feature: typeof features[0] }) => (
