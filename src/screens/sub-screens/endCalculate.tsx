@@ -54,80 +54,105 @@ export const EndCalculate = (): JSX.Element => {
       // Get the content element
       const content = contentRef.current;
       
-      // Store original styles
-      const originalStyle = {
-        position: content.style.position,
-        left: content.style.left,
-        top: content.style.top,
-        width: content.style.width,
-        height: content.style.height,
-      };
+      // Show a loading indicator or message
+      const loadingMessage = document.createElement('div');
+      loadingMessage.innerText = 'Generating PDF...';
+      loadingMessage.style.position = 'fixed';
+      loadingMessage.style.top = '50%';
+      loadingMessage.style.left = '50%';
+      loadingMessage.style.transform = 'translate(-50%, -50%)';
+      loadingMessage.style.padding = '10px 20px';
+      loadingMessage.style.backgroundColor = 'rgba(0,0,0,0.7)';
+      loadingMessage.style.color = 'white';
+      loadingMessage.style.borderRadius = '5px';
+      loadingMessage.style.zIndex = '9999';
+      document.body.appendChild(loadingMessage);
 
-      // Temporarily modify the element for capture
-      content.style.position = 'absolute';
-      content.style.left = '0';
-      content.style.top = '0';
-      content.style.width = `${content.scrollWidth}px`;
-      content.style.height = `${content.scrollHeight}px`;
+      // Make a copy of the content for PDF generation
+      const contentClone = content.cloneNode(true) as HTMLElement;
+      contentClone.style.position = 'absolute';
+      contentClone.style.left = '-9999px';
+      contentClone.style.top = '0';
+      contentClone.style.width = `${content.offsetWidth}px`;
+      contentClone.style.backgroundColor = 'white';
+      contentClone.style.padding = '20px';
+      contentClone.style.border = 'none';
+      document.body.appendChild(contentClone);
 
-      // Configure html2canvas
-      const canvas = await html2canvas(content, {
-        scale: 2,
+      // Configure html2canvas with better settings
+      const canvas = await html2canvas(contentClone, {
+        scale: 2, // Higher scale for better quality
         useCORS: true,
-        logging: true,
-        width: content.scrollWidth,
-        height: content.scrollHeight,
-        windowWidth: content.scrollWidth,
-        windowHeight: content.scrollHeight,
+        logging: false,
+        allowTaint: true,
         backgroundColor: '#ffffff',
+        imageTimeout: 15000, // Longer timeout for images
+        removeContainer: true,
+        // Don't set fixed dimensions to capture all content
         onclone: (clonedDoc) => {
+          // Make sure all elements are visible and properly sized in the clone
           const clonedElement = clonedDoc.querySelector('[data-pdf-content]') as HTMLElement;
           if (clonedElement) {
-            clonedElement.style.position = 'absolute';
-            clonedElement.style.left = '0';
-            clonedElement.style.top = '0';
-            clonedElement.style.width = `${content.scrollWidth}px`;
-            clonedElement.style.height = `${content.scrollHeight}px`;
+            // Make all child elements visible
+            Array.from(clonedElement.querySelectorAll('*')).forEach((el: any) => {
+              if (el.style) {
+                el.style.display = el.style.display === 'none' ? 'none' : '';
+              }
+            });
           }
         }
       });
 
-      // Restore original styles
-      Object.assign(content.style, originalStyle);
+      // Remove the clone from the DOM
+      document.body.removeChild(contentClone);
+      
+      // Remove loading message
+      document.body.removeChild(loadingMessage);
 
       // Calculate dimensions
-      const imgWidth = 210; // A4 width in mm
-      const pageHeight = 297; // A4 height in mm
+      const imgWidth = 190; // A4 width in mm with margins
+      const pageHeight = 277; // A4 height in mm with margins
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-      // Create PDF
+      // Create PDF with better settings
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
-        format: 'a4'
+        format: 'a4',
+        compress: true
       });
 
+      // Add margins
+      const margin = 10; // 10mm margins
+      
       let heightLeft = imgHeight;
-      let position = 0;
+      let position = margin;
       let pageNumber = 1;
 
       // Add first page
-      pdf.addImage(canvas.toDataURL('image/jpeg', 1.0), 'JPEG', 0, position, imgWidth, Math.min(imgHeight, pageHeight));
-      heightLeft -= pageHeight;
+      pdf.addImage(
+        canvas.toDataURL('image/png', 1.0), // Use PNG for better quality
+        'PNG',
+        margin, // Left margin
+        position, // Top margin
+        imgWidth,
+        Math.min(imgHeight, pageHeight - 2 * margin) // Account for margins
+      );
+      heightLeft -= (pageHeight - 2 * margin);
 
       // Add subsequent pages if content overflows
       while (heightLeft > 0) {
-        position = -pageHeight * pageNumber;
         pdf.addPage();
+        position = margin - (pageHeight - 2 * margin) * pageNumber;
         pdf.addImage(
-          canvas.toDataURL('image/jpeg', 1.0),
-          'JPEG',
-          0,
-          position,
+          canvas.toDataURL('image/png', 1.0),
+          'PNG',
+          margin, // Left margin
+          position, // Adjusted position for current page
           imgWidth,
           imgHeight
         );
-        heightLeft -= pageHeight;
+        heightLeft -= (pageHeight - 2 * margin);
         pageNumber++;
       }
 
@@ -135,6 +160,7 @@ export const EndCalculate = (): JSX.Element => {
 
     } catch (error) {
       console.error('Error generating PDF:', error);
+      alert('There was an error generating the PDF. Please try again.');
     }
   };
 
@@ -175,47 +201,47 @@ export const EndCalculate = (): JSX.Element => {
       <main className="flex flex-col items-center justify-center gap-8 px-6 md:px-20 py-32 w-full bg-[#8B1D2C]">
         <Card className="w-full max-w-3xl bg-white shadow-lg">
           <CardContent className="flex flex-col gap-6 p-8">
+            {/* Add Expense Form - Not included in PDF */}
+            <div className="flex flex-col gap-4 p-4 bg-gray-50 rounded-lg mb-6">
+              <input
+                type="number"
+                placeholder="Amount"
+                className="p-2 border rounded w-full"
+                value={newExpense.amount}
+                onChange={(e) => setNewExpense({ ...newExpense, amount: e.target.value })}
+              />
+              <input
+                type="text"
+                placeholder="Description"
+                className="p-2 border rounded w-full"
+                value={newExpense.description}
+                onChange={(e) => setNewExpense({ ...newExpense, description: e.target.value })}
+              />
+              <input
+                type="text"
+                placeholder="Paid by"
+                className="p-2 border rounded w-full"
+                value={newExpense.paidBy}
+                onChange={(e) => setNewExpense({ ...newExpense, paidBy: e.target.value })}
+              />
+              <Button 
+                onClick={handleAddExpense}
+                className="bg-[#8B1D2C] text-white hover:bg-[#8B1D2C]/90 w-full"
+              >
+                Add Expense
+              </Button>
+            </div>
+            
             {/* Content to be included in PDF */}
             <div 
               ref={contentRef} 
               data-pdf-content 
-              className="pdf-content relative"
+              className="pdf-content relative p-6 border rounded-lg"
               style={{ minHeight: 'fit-content' }}
             >
               <h1 className="text-2xl md:text-4xl font-bold text-center text-blue-gray900 mb-6">
                 Expense Summary ({numberOfPeople} People)
               </h1>
-
-              {/* Add Expense Form - Not included in PDF */}
-              <div className="flex flex-col gap-4 p-4 bg-gray-50 rounded-lg mt-6">
-                <input
-                  type="number"
-                  placeholder="Amount"
-                  className="p-2 border rounded w-full"
-                  value={newExpense.amount}
-                  onChange={(e) => setNewExpense({ ...newExpense, amount: e.target.value })}
-                />
-                <input
-                  type="text"
-                  placeholder="Description"
-                  className="p-2 border rounded w-full"
-                  value={newExpense.description}
-                  onChange={(e) => setNewExpense({ ...newExpense, description: e.target.value })}
-                />
-                <input
-                  type="text"
-                  placeholder="Paid by"
-                  className="p-2 border rounded w-full"
-                  value={newExpense.paidBy}
-                  onChange={(e) => setNewExpense({ ...newExpense, paidBy: e.target.value })}
-                />
-                <Button 
-                  onClick={handleAddExpense}
-                  className="bg-[#8B1D2C] text-white hover:bg-[#8B1D2C]/90 w-full"
-                >
-                  Add Expense
-                </Button>
-              </div>
 
               {/* Expenses List */}
               <div className="space-y-3 mb-6">
@@ -283,4 +309,4 @@ export const EndCalculate = (): JSX.Element => {
       <FooterSection />
     </div>
   );
-}; 
+};
